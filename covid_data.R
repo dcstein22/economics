@@ -1,11 +1,17 @@
 library(tidyverse)
 covid <- read_csv("https://raw.githubusercontent.com/nytimes/covid-19-data/master/us-states.csv")
 tail(covid)
-covid1 <- covid %>% 
-  filter(date == "2021-05-02")
-sum(covid1$deaths)
-(sum(covid1$deaths)/sum(covid1$cases))*100
-print(covid1)
-covid1 %>%
-  group_by(state)%>%
-  summarise(deaths)
+rm(covid2)
+ggplot(data = covid)+
+  geom_point(mapping = aes(x = cases,y =deaths))
+covid2 <- filter(covid, date == "2021-12-29")
+sum(covid2$deaths)/sum(covid2$cases)
+sum(covid2$cases)             
+sum(covid2$deaths)
+re <- lm(deaths~ cases, data = covid2)
+summary(re)
+arrange(covid2, desc(cases))
+cor(covid2$cases,covid2$deaths)
+View(covid2)
+covid3 <- mutate(covid2, death_rate = deaths/cases)
+View(arrange(covid3,desc(death_rate)))
